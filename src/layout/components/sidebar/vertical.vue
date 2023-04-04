@@ -3,7 +3,7 @@ import Logo from "./logo.vue";
 import { useRoute } from "vue-router";
 import { emitter } from "@/utils/mitt";
 import SidebarItem from "./sidebarItem.vue";
-import leftCollapse from "./leftCollapse.vue";
+// import leftCollapse from "./leftCollapse.vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { storageLocal } from "@pureadmin/utils";
 import { ref, computed, watch, onBeforeMount } from "vue";
@@ -16,8 +16,7 @@ const showLogo = ref(
     true
 );
 
-const { routers, device, pureApp, isCollapse, menuSelect, toggleSideBar } =
-  useNav();
+const { routers, device, pureApp, isCollapse, menuSelect } = useNav();
 
 const subMenuData = ref([]);
 
@@ -77,7 +76,7 @@ watch(
         router
         unique-opened
         mode="vertical"
-        class="outer-most select-none"
+        class="select-none outer-most"
         :collapse="isCollapse"
         :default-active="route.path"
         :collapse-transition="false"
@@ -88,15 +87,15 @@ watch(
           :key="routes.path"
           :item="routes"
           :base-path="routes.path"
-          class="outer-most select-none"
+          class="select-none outer-most"
         />
       </el-menu>
     </el-scrollbar>
-    <leftCollapse
+    <!-- <leftCollapse
       v-if="device !== 'mobile'"
       :is-active="pureApp.sidebar.opened"
       @toggleClick="toggleSideBar"
-    />
+    /> -->
   </div>
 </template>
 

@@ -31,8 +31,14 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
   <div
     class="navbar bg-[#fff] shadow-sm shadow-[rgba(0, 21, 41, 0.08)] dark:shadow-[#0d0d0d]"
   >
-    <topCollapse
+    <!-- <topCollapse
       v-if="device === 'mobile'"
+      class="hamburger-container"
+      :is-active="pureApp.sidebar.opened"
+      @toggleClick="toggleSideBar"
+    /> -->
+
+    <topCollapse
       class="hamburger-container"
       :is-active="pureApp.sidebar.opened"
       @toggleClick="toggleSideBar"
@@ -84,7 +90,7 @@ const { t, locale, translationCh, translationEn } = useTranslationLang();
       </el-dropdown>
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
-        <span class="el-dropdown-link navbar-bg-hover select-none">
+        <span class="select-none el-dropdown-link navbar-bg-hover">
           <img
             src="https://avatars.githubusercontent.com/u/44761321?v=4"
             :style="avatarsStyle"

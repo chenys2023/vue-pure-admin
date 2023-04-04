@@ -3,8 +3,8 @@
   "version": "3.9.7",
   "private": true,
   "scripts": {
-    "dev": "NODE_OPTIONS=--max-old-space-size=4096 vite",
-    "serve": "pnpm dev",
+    "serve": "NODE_OPTIONS=--max-old-space-size=4096 vite",
+    "dev": "pnpm serve",
     "build": "rimraf dist && NODE_OPTIONS=--max-old-space-size=8192 vite build",
     "build:staging": "rimraf dist && vite build --mode staging",
     "report": "rimraf dist && vite build",
