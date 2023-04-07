@@ -13,9 +13,14 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { ElMessage } from "element-plus";
+
+// 请求基础路径，根据项目进行配置,并添加代理
+const { VITE_URL_PREFIX } = import.meta.env;
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
+  baseURL: VITE_URL_PREFIX,
   // 请求超时时间
   timeout: 10000,
   headers: {
@@ -121,18 +126,22 @@ class PureHttp {
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
         const $config = response.config;
+        const data = response.data;
         // 关闭进度条动画
         NProgress.done();
         // 优先判断post/get等方法是否传入回掉，否则执行初始化设置等回掉
         if (typeof $config.beforeResponseCallback === "function") {
           $config.beforeResponseCallback(response);
-          return response.data;
+          return data;
         }
         if (PureHttp.initConfig.beforeResponseCallback) {
           PureHttp.initConfig.beforeResponseCallback(response);
-          return response.data;
+          return data;
         }
-        return response.data;
+        if (data.code !== 200) {
+          ElMessage.error(data.msg);
+        }
+        return data;
       },
       (error: PureHttpError) => {
         const $error = error;

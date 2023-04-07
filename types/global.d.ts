@@ -64,6 +64,8 @@ declare global {
     VITE_ROUTER_HISTORY: string;
     VITE_CDN: boolean;
     VITE_COMPRESSION: ViteCompression;
+    VITE_URL_PREFIX: string;
+    VITE_TARGET_URL: string;
   }
 
   /**

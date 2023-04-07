@@ -18,6 +18,7 @@ import TypeIt from "@/components/ReTypeit";
 import qrCode from "./components/qrCode.vue";
 import regist from "./components/regist.vue";
 import update from "./components/update.vue";
+import tenant from "./components/tenant.vue";
 import { initRouter } from "@/router/utils";
 import { useNav } from "@/layout/hooks/useNav";
 import type { FormInstance } from "element-plus";
@@ -60,9 +61,14 @@ const { title, getDropdownItemStyle, getDropdownItemClass } = useNav();
 const { locale, translationCh, translationEn } = useTranslationLang();
 
 const ruleForm = reactive({
-  username: "admin",
-  password: "admin123",
-  verifyCode: ""
+  username: "",
+  password: "",
+  verifyCode: "",
+  tenantShow: false
+});
+
+const state = reactive({
+  tenantList: {}
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
@@ -71,9 +77,16 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: "admin123" })
+        .loginByUsername({
+          account: ruleForm.username,
+          password: ruleForm.password
+        })
         .then(res => {
-          if (res.success) {
+          if (!res.data.tenantCode) {
+            state.tenantList = res.data.tenantList;
+            // 显示多平台选择
+            ruleForm.tenantShow = true;
+          } else {
             // 获取后端路由
             initRouter().then(() => {
               router.push("/");
@@ -111,7 +124,7 @@ watch(imgCode, value => {
 <template>
   <div class="select-none">
     <img :src="bg" class="wave" />
-    <div class="flex-c absolute right-5 top-3">
+    <div class="absolute flex-c right-5 top-3">
       <!-- 主题 -->
       <el-switch
         v-model="dataTheme"
@@ -266,9 +279,9 @@ watch(imgCode, value => {
           <Motion v-if="currentPage === 0" :delay="350">
             <el-form-item>
               <el-divider>
-                <p class="text-gray-500 text-xs">{{ t("login.thirdLogin") }}</p>
+                <p class="text-xs text-gray-500">{{ t("login.thirdLogin") }}</p>
               </el-divider>
-              <div class="w-full flex justify-evenly">
+              <div class="flex w-full justify-evenly">
                 <span
                   v-for="(item, index) in thirdParty"
                   :key="index"
@@ -277,7 +290,7 @@ watch(imgCode, value => {
                   <IconifyIconOnline
                     :icon="`ri:${item.icon}-fill`"
                     width="20"
-                    class="cursor-pointer text-gray-500 hover:text-blue-400"
+                    class="text-gray-500 cursor-pointer hover:text-blue-400"
                   />
                 </span>
               </div>
@@ -294,6 +307,12 @@ watch(imgCode, value => {
         </div>
       </div>
     </div>
+    <!-- 多平台选择 -->
+    <tenant
+      v-model="ruleForm.tenantShow"
+      v-model:form="ruleForm"
+      v-model:tenantList="state.tenantList"
+    />
   </div>
 </template>
 
@@ -304,6 +323,15 @@ watch(imgCode, value => {
 <style lang="scss" scoped>
 :deep(.el-input-group__append, .el-input-group__prepend) {
   padding: 0;
+}
+
+:deep(.el-dialog) {
+  width: 30%;
+}
+@media screen and (max-width: 1024px) {
+  :deep(.el-dialog) {
+    width: 90%;
+  }
 }
 
 .translation {

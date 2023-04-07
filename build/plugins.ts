@@ -18,7 +18,8 @@ export function getPluginsList(
   VITE_CDN: boolean,
   VITE_COMPRESSION: ViteCompression
 ) {
-  const prodMock = true;
+  // mock开关
+  const enableMock = false;
   const lifecycle = process.env.npm_lifecycle_event;
   return [
     vue(),
@@ -47,8 +48,8 @@ export function getPluginsList(
     // mock支持
     viteMockServe({
       mockPath: "mock",
-      localEnabled: command === "serve",
-      prodEnabled: command !== "serve" && prodMock,
+      localEnabled: enableMock,
+      prodEnabled: false,
       injectCode: `
           import { setupProdMockServer } from './mockProdServer';
           setupProdMockServer();
