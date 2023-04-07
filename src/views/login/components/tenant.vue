@@ -47,7 +47,7 @@
 import { ref, reactive } from "vue";
 import { watch } from "vue";
 import { useUserStoreHook } from "@/store/modules/user";
-// import { initRouter } from "@/router/utils";
+import { initRouter } from "@/router/utils";
 import { useRouter } from "vue-router";
 import { message } from "@/utils/message";
 const router = useRouter();
@@ -58,7 +58,7 @@ const props = defineProps({
   },
   form: {
     type: Object,
-    default: () => ({})
+    default: () => {}
   },
   tenantList: {
     type: Array as PropType<any[]>,
@@ -98,11 +98,10 @@ const onSubmit = () => {
         message("平台不可用", { type: "error" });
       } else {
         // 获取后端路由
-        router.push("/");
-        // initRouter().then(() => {
-        //   router.push("/");
-        //   message("登录成功", { type: "success" });
-        // });
+        initRouter().then(() => {
+          router.push("/");
+          message("登录成功", { type: "success" });
+        });
       }
     });
 };

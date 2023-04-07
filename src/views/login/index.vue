@@ -68,7 +68,7 @@ const ruleForm = reactive({
 });
 
 const state = reactive({
-  tenantList: {}
+  tenantList: {} as Array<Object>
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
@@ -103,7 +103,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
 
 /** 使用公共函数，避免`removeEventListener`失效 */
 function onkeypress({ code }: KeyboardEvent) {
-  if (code === "Enter") {
+  if (code === "Enter" || code === "NumpadEnter") {
     onLogin(ruleFormRef.value);
   }
 }
@@ -225,6 +225,7 @@ watch(imgCode, value => {
                   v-model="ruleForm.verifyCode"
                   :placeholder="t('login.verifyCode')"
                   :prefix-icon="useRenderIcon('ri:shield-keyhole-line')"
+                  @keyup.enter="onkeypress"
                 >
                   <template v-slot:append>
                     <ReImageVerify v-model:code="imgCode" />
