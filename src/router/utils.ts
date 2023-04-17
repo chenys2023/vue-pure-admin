@@ -213,11 +213,10 @@ function initRouter() {
     }
   } else {
     return new Promise(resolve => {
-      // getAsyncRoutes().then(({ data }) => {
-      // handleAsyncRoutes(cloneDeep(data));
-      handleAsyncRoutes(cloneDeep([]));
-      resolve(router);
-      // });
+      getAsyncRoutes().then(({ data }) => {
+        handleAsyncRoutes(cloneDeep(data));
+        resolve(router);
+      });
     });
   }
 }
