@@ -105,7 +105,8 @@ router.beforeEach((to: toRouteType, _from, next) => {
       handleAliveRoute(newMatched);
     }
   }
-  const userInfo = storageSession().getItem<DataInfo<number>>(sessionKey);
+  const userInfo =
+    storageSession().getItem<DataInfo>(sessionKey)?.userInfo ?? null;
   NProgress.start();
   const externalLink = isUrl(to?.name as string);
   if (!externalLink) {

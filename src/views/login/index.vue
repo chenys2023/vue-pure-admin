@@ -68,11 +68,11 @@ const ruleForm = reactive({
 });
 
 const state = reactive({
-  tenantList: {} as Array<Object>
+  tenantList: [] as Array<Object>
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
-  loading.value = true;
+  // loading.value = true;
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -82,10 +82,10 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           password: ruleForm.password
         })
         .then(res => {
-          if (!res.data.tenantCode) {
+          if (!res?.data?.tenantCode) {
             state.tenantList = res.data.tenantList;
             // 显示多平台选择
-            ruleForm.tenantShow = true;
+            ruleForm.tenantShow = res.data.tenantList.length > 0 ? true : false;
           } else {
             // 获取后端路由
             initRouter().then(() => {

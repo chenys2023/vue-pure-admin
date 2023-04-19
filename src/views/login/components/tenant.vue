@@ -85,7 +85,7 @@ const onSelect = (item, index) => {
   clickIndex.value = index;
 };
 const onSubmit = () => {
-  loading.value = true;
+  // loading.value = true;
   selectForm.account = props.form.username;
   selectForm.password = props.form.password;
   selectForm.tenantCode = props.tenantList[clickIndex.value].tenantCode;
