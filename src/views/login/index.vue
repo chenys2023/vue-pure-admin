@@ -68,7 +68,7 @@ const ruleForm = reactive({
 });
 
 const state = reactive({
-  tenantList: {} as Array<Object>
+  tenantList: [] as Array<Object>
 });
 
 const onLogin = async (formEl: FormInstance | undefined) => {
@@ -85,7 +85,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
           if (!res.data.tenantCode) {
             state.tenantList = res.data.tenantList;
             // 显示多平台选择
-            ruleForm.tenantShow = true;
+            ruleForm.tenantShow = res.data.tenantList.length > 0 ?? false;
           } else {
             // 获取后端路由
             initRouter().then(() => {
@@ -225,7 +225,6 @@ watch(imgCode, value => {
                   v-model="ruleForm.verifyCode"
                   :placeholder="t('login.verifyCode')"
                   :prefix-icon="useRenderIcon('ri:shield-keyhole-line')"
-                  @keyup.enter="onkeypress"
                 >
                   <template v-slot:append>
                     <ReImageVerify v-model:code="imgCode" />

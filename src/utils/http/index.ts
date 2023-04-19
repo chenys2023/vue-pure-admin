@@ -11,7 +11,8 @@ import {
 } from "./types.d";
 import { stringify } from "qs";
 import NProgress from "../progress";
-import { getToken, formatToken } from "@/utils/auth";
+// import { getToken, formatToken } from "@/utils/auth";
+import { getToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
 import { ElMessage } from "element-plus";
 
@@ -56,7 +57,8 @@ class PureHttp {
   private static retryOriginalRequest(config: PureHttpRequestConfig) {
     return new Promise(resolve => {
       PureHttp.requests.push((token: string) => {
-        config.headers["Authorization"] = formatToken(token);
+        // config.headers["Authorization"] = formatToken(token);
+        config.headers["Authorization"] = token;
         resolve(config);
       });
     });
@@ -94,7 +96,8 @@ class PureHttp {
                       .handRefreshToken({ refreshToken: data.refreshToken })
                       .then(res => {
                         const token = res.data.accessToken;
-                        config.headers["Authorization"] = formatToken(token);
+                        // config.headers["Authorization"] = formatToken(token);
+                        config.headers["Authorization"] = token;
                         PureHttp.requests.forEach(cb => cb(token));
                         PureHttp.requests = [];
                       })
@@ -104,9 +107,10 @@ class PureHttp {
                   }
                   resolve(PureHttp.retryOriginalRequest(config));
                 } else {
-                  config.headers["Authorization"] = formatToken(
-                    data.accessToken
-                  );
+                  // config.headers["Authorization"] = formatToken(
+                  //   data.accessToken
+                  // );
+                  config.headers["Authorization"] = data.accessToken;
                   resolve(config);
                 }
               } else {
