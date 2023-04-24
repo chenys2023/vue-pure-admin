@@ -41,12 +41,16 @@ export type RefreshTokenResult = {
 
 /** 登录 */
 export const getLogin = (data?: object) => {
-  return http.request<UserResult>("post", "/login/pc", { data });
+  return http.request<UserResult>("post", "/system/login/pc", { data });
 };
 
 /** 刷新token */
 export const refreshTokenApi = (data?: object) => {
-  return http.request<RefreshTokenResult>("post", "/login/refreshToken", {
-    data
-  });
+  return http.request<RefreshTokenResult>(
+    "post",
+    "/system/login/refreshToken",
+    {
+      data
+    }
+  );
 };

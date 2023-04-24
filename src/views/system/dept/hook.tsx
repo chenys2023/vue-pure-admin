@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { handleTree } from "@/utils/tree";
-import { getDeptList } from "@/api/system";
+import { getDeptList } from "@/api/system/system";
 import { reactive, ref, onMounted } from "vue";
 
 export function useDept() {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { handleTree } from "@/utils/tree";
-import { getDeptList } from "@/api/system";
+import { getDeptList } from "@/api/system/system";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
 import { ref, computed, watch, onMounted, getCurrentInstance } from "vue";
 
@@ -89,7 +89,7 @@ onMounted(async () => {
 <template>
   <div class="h-full min-h-[780px] bg-bg_color overflow-auto">
     <div class="flex items-center h-[34px]">
-      <p class="flex-1 ml-2 font-bold text-base truncate" title="部门列表">
+      <p class="flex-1 ml-2 text-base font-bold truncate" title="部门列表">
         部门列表
       </p>
       <el-input
